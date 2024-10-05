@@ -27,6 +27,9 @@ import { mockAwbData, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import { variables } from "./variables";
+import { useEffect, useState } from "react";
+import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
+import getAirportCode from "./utils/getAirPortCodeFromUrl";
 
 interface ShipmentOverviewProps {
   agent: "Shipper" | "Quality Assurance Agent";
@@ -42,8 +45,41 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
   const location = useLocation();
   const currentlocation = window.location.origin + location.pathname;
 
- 
+  // Data fetching
+  const [data, setData] = useState<WaybillObjectResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(variables.api.awbs[0].endpoint, {
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${variables.accessToken}`,
+            'Content-Type': 'application/ld+json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result: WaybillObjectResponse = await response.json();
+
+        console.log("Result for shipment: ", result);
+
+        setData(result);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+ 
   return (
     <>
       <BreadCrumbs
@@ -67,7 +103,7 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
             </Flex>
             <Flex align="center">
               <Icon as={FaBox} mr={2} />
-              <Text>Pieces: {mockAwbData.pieces}</Text>
+              <Text>Pieces: {0}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaWeight} mr={2} />
@@ -75,11 +111,11 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
             </Flex>
             <Flex align="center">
               <Icon as={FaMapMarkerAlt} mr={2} />
-              <Text>Origin: {mockAwbData.origin}</Text>
+              <Text>Origin: {getAirportCode(data?.departureLocation["@id"])}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaFlag} mr={2} />
-              <Text>Destination: {mockAwbData.destination}</Text>
+              <Text>Destination: {getAirportCode(data?.departureLocation["@id"])}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaClock} mr={2} />
@@ -99,9 +135,9 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
             <Thead>
               <Tr>
                 <Th>Flight no. (Origin / Destination)</Th>
-                <Th>Event</Th>
-                <Th>Station</Th>
-                <Th>Planned Time</Th>
+                <Th>AWB</Th>
+                <Th>Departure Location</Th>
+                <Th>Arrival Location</Th>
                 <Th>Actual Time</Th>
                 <Th>Planned Pieces / Weight</Th>
                 <Th>Actual Pieces / Weight</Th>
@@ -112,13 +148,13 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
                 <Tr key={index}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                    <Link href={currentlocation + "/" + status.flight}>
-                      {status.flight}
+                    <Link href={currentlocation + "/" + data?.waybillPrefix + "-" + data?.waybillNumber}>
+                    {data?.waybillPrefix}-{data?.waybillNumber}
                     </Link>
                   </Td>
-                  <Td>{status.event}</Td>
-                  <Td>{status.station}</Td>
-                  <Td>{status.plannedTime}</Td>
+                  <Td>{data?.waybillPrefix}-{data?.waybillNumber}</Td>
+                  <Td>{getAirportCode(data?.departureLocation["@id"])}</Td>
+                  <Td>{getAirportCode(data?.arrivalLocation["@id"])}</Td>
                   <Td>{status.actualTime}</Td>
                   <Td>{status.plannedPieces}</Td>
                   <Td>{status.actualPieces}</Td>
