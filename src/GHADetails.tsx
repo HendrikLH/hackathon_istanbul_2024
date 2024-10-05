@@ -179,11 +179,12 @@ export default function GHADetails() {
           <SimpleGrid columns={[2, null, 3]} spacing={4}>
             <Flex align="center">
               <Icon as={FaBox} mr={2} />
-              <Text>ULD no.: {ULDData?.["@graph"][0].uldSerialNumber}</Text>
+              <Text>ULD Number: {ULDData?.["@graph"][0].uldSerialNumber}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaClock} mr={2} />
-              <Text>Current Milestone: {ULDData?.["@graph"][1].code}</Text>
+              <Text>Current Milestone: FOH</Text>
+              {/*<Text>Current Milestone: ALS</Text>*/}
             </Flex>
             <Flex align="center">
               <Icon as={FaPlane} mr={2} />
@@ -195,11 +196,11 @@ export default function GHADetails() {
             </Flex>
             <Flex align="center">
               <Icon as={FaFlag} mr={2} />
-              <Text>Destination: {getAirportCode(awbData?.arrivalLocation["@id"])}</Text>
+              <Text>Destination: ATL</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaWeight} mr={2} />
-              <Text>Weight: 10 kg</Text>
+              <Text>Weight: 560 kg</Text>
             </Flex>
           </SimpleGrid>
         </CardBody>

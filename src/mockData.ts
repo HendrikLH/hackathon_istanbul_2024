@@ -2,9 +2,9 @@ export const mockAwbData = {
     product: "General Cargo",
     pieces: 5,
     weight: 500,
-    origin: "LAX",
-    destination: "JFK",
-    recentMilestone: "DEP",
+    origin: "IST",
+    destination: "ATL",
+    recentMilestone: "UWS",
   };
   
 export const mockStatusHistory = [
@@ -124,10 +124,9 @@ export const mockStatusHistory = [
   export const mockQAOverview = [
     {
       flight: "LH8401",
-      origin: "PVG",
-      destination: "FRA",
       event: "FOH",
-      station: "FRA (Frankfurt)",
+      origin: "FRA (Frankfurt)",
+      destination: "ATL (Atlanta)",
       plannedTime: "2023-05-15 10:00",
       actualTime: "2023-05-15 10:00",
       plannedPieces: "15 / 2595 kg",
@@ -135,43 +134,9 @@ export const mockStatusHistory = [
     },
     {
       flight: "LH3948",
-      origin: "IST",
-      destination: "FRA",
-      event: "FOH",
-      station: "IST (Istanbul)",
-      plannedTime: "2023-05-15 10:00",
-      actualTime: "2023-05-15 10:00",
-      plannedPieces: "15 / 2595 kg",
-      actualPieces: "15 / 2959 kg",
-    },
-    {
-      flight: "LH571",
-      origin: "ATL",
-      destination: "FRA",
-      event: "DEP",
-      station: "ATL (Atlanta)",
-      plannedTime: "2023-05-15 10:00",
-      actualTime: "2023-05-15 10:00",
-      plannedPieces: "15 / 2595 kg",
-      actualPieces: "15 / 2959 kg",
-    },
-    {
-      flight: "LH8401",
-      origin: "BRE",
-      destination: "FRA",
-      event: "BKD",
-      station: "BRE (Bremen)",
-      plannedTime: "2023-05-15 10:00",
-      actualTime: "2023-05-15 10:00",
-      plannedPieces: "15 / 2595 kg",
-      actualPieces: "15 / 2959 kg",
-    },
-    {
-      flight: "LH8401",
-      origin: "PVG",
-      destination: "FRA",
-      event: "BKD",
-      station: "PVG (Shanghai)",
+      event: "DLV",
+      origin: "IST (Istanbul)",
+      destination: "FRA (Frankfurt)",
       plannedTime: "2023-05-15 10:00",
       actualTime: "2023-05-15 10:00",
       plannedPieces: "15 / 2595 kg",
@@ -213,7 +178,7 @@ export const mockStatusHistory = [
       name: "ULD #4",
       info: "Customs clearance",
     },
-    {
+    /*{
       id: 5,
       lat: 50.040308,
       lng: 8.543563,
@@ -228,5 +193,5 @@ export const mockStatusHistory = [
       timestamp: "2024-03-16 02:15:00",
       name: "ULD #3",
       info: "Customs clearance",
-    },
+    },*/
   ];

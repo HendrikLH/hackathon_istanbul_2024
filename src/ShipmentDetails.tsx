@@ -25,7 +25,7 @@ import {
   FaWarehouse,
   FaWeight,
 } from "react-icons/fa";
-import { locations, mockAwbData, mockStatusHistory } from "./mockData";
+import { locations, mockAwbData, mockQAOverview, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
@@ -36,6 +36,7 @@ import ULDObject from "./LogisticsObjects/ULDObject";
 import { useEffect, useState } from "react";
 import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
 import getAirportCode from "./utils/getAirPortCodeFromUrl";
+import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 
 export default function ShipmentDetails() {
   const location = useLocation();
@@ -133,7 +134,8 @@ export default function ShipmentDetails() {
       {/* AWB Overview */}
       <Card margin="1em 0" width="100%" boxSizing="border-box">
         <CardHeader>
-          <Heading size="md">Shipment Details</Heading>
+        <Heading size="md">Shipment Details - AWB 44395433</Heading>
+        <Heading size="sm" color="red">Recent Milestone: FOH</Heading>
         </CardHeader>
         <CardBody>
           <SimpleGrid columns={[2, null, 3]} spacing={4}>
@@ -147,7 +149,7 @@ export default function ShipmentDetails() {
             </Flex>
             <Flex align="center">
               <Icon as={FaWarehouse} mr={2} />
-              <Text>Status: {getShipmentStatus()}</Text>
+              <Text>Status: <WarningIcon color="red" /></Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaMapMarkerAlt} mr={2} />
@@ -181,14 +183,15 @@ export default function ShipmentDetails() {
               </Tr>
             </Thead>
             <Tbody>
-              {mockStatusHistory.map((status, index) => (
-                <Tr key={index}>
+              {mockQAOverview.map((status, index) => (
+                <Tr key={index} color={status.origin === "FRA (Frankfurt)" ? "red" : ""}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                      {ULDData?.["@graph"][1].code}
+                      {status.event}
                   </Td>
-                  <Td>{status.station}</Td>
-                  <Td>{getShipmentStatus()}</Td>
+                  <Td>{status.origin}</Td>
+                  <Td>{status.destination}</Td>
+                  <Td>{status.origin === "FRA (Frankfurt)" ? <WarningIcon color="red" /> : <CheckCircleIcon color="green" />}</Td>
                   <Td>{status.plannedPieces}</Td>
                 </Tr>
               ))}

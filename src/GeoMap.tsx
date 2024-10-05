@@ -34,7 +34,7 @@ function PolylineComponent() {
   const map = useMap();
 
   useEffect(() => {
-    const colors = ["green", "green", "green", "red", "red"];
+    const colors = ["green", "green", "green"];//, "red", "red"];
 
     const animatePolyline = (index: number) => {
       if (index >= locations.length - 1) return; // Stop if no more locations
@@ -57,7 +57,7 @@ function PolylineComponent() {
       polyline.addTo(map);
 
       const distance = L.latLng(prevLocation.lat, prevLocation.lng).distanceTo(L.latLng(location.lat, location.lng));
-      const duration = 5000; // 5 seconds per polyline animation
+      const duration = 7000; // 5 seconds per polyline animation
       const speed = distance / duration;
 
       // Start the snaking animation and wait for it to finish before animating the next polyline
@@ -66,7 +66,7 @@ function PolylineComponent() {
       setTimeout(() => {
         // Animate the next polyline after the current one is done
         animatePolyline(index + 1);
-      }, duration / 3); // Wait for the duration of the current polyline animation before moving to the next
+      }, duration / 2); // Wait for the duration of the current polyline animation before moving to the next
     };
 
     // Start animating from the first polyline
@@ -98,8 +98,10 @@ interface GeoMapProps {
 }
 
 export default function GeoMap({points}: GeoMapProps) {
-  const [center] = useState<[number, number]>([50.042514,8.542955]);
-  const [zoom] = useState(17);
+  const [center] = useState<[number, number]>([50.04166,8.54147]);
+  const [zoom] = useState(18);
+  /*const [center] = useState<[number, number]>([50.03974,8.54068]);
+  const [zoom] = useState(16);*/
 
   return (
     <ChakraProvider>

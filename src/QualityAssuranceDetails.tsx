@@ -32,7 +32,7 @@ import ULDObject from "./LogisticsObjects/ULDObject";
 import { useEffect, useState } from "react";
 import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
 import getAirportCode from "./utils/getAirPortCodeFromUrl";
-import { WarningIcon } from "@chakra-ui/icons";
+import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 
 export default function QualityAssuranceDetails() {
   const location = useLocation();
@@ -145,7 +145,7 @@ export default function QualityAssuranceDetails() {
             </Flex>
             <Flex align="center">
               <Icon as={FaWarehouse} mr={2} />
-              <Text>Status: {getShipmentStatus()}</Text>
+              <Text>Status: <WarningIcon color="red" /></Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaMapMarkerAlt} mr={2} />
@@ -173,20 +173,22 @@ export default function QualityAssuranceDetails() {
             <Thead>
               <Tr>
                 <Th>Milestone</Th>
-                <Th>Station</Th>
+                <Th>Origin</Th>
+                <Th>Destination</Th>
                 <Th>Status</Th>
                 <Th>Amount of Pieces</Th>
               </Tr>
             </Thead>
             <Tbody>
               {mockQAOverview.map((status, index) => (
-                <Tr key={index} color={status.station === "FRA (Frankfurt)" ? "red" : ""}>
+                <Tr key={index} color={status.origin === "FRA (Frankfurt)" ? "red" : ""}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
                       {status.event}
                   </Td>
-                  <Td>{status.station}</Td>
-                  <Td>{status.station === "FRA (Frankfurt)" ? <WarningIcon color="red" /> : getShipmentStatus()}</Td>
+                  <Td>{status.origin}</Td>
+                  <Td>{status.destination}</Td>
+                  <Td>{status.origin === "FRA (Frankfurt)" ? <WarningIcon color="red" /> : <CheckCircleIcon color="green" />}</Td>
                   <Td>{status.plannedPieces}</Td>
                 </Tr>
               ))}
