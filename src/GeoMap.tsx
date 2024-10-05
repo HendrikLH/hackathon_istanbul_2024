@@ -34,7 +34,7 @@ function PolylineComponent() {
   const map = useMap();
 
   useEffect(() => {
-    const colors = ["green", "green", "green"];
+    const colors = ["green", "green", "green", "red", "red"];
 
     const animatePolyline = (index: number) => {
       if (index >= locations.length - 1) return; // Stop if no more locations
@@ -103,7 +103,7 @@ export default function GeoMap({points}: GeoMapProps) {
 
   return (
     <ChakraProvider>
-      <Box height="500px" width="100%" borderRadius="md" overflow="hidden">
+      <Box height="45em" width="100%" borderRadius="md" overflow="hidden">
         <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"

@@ -12,7 +12,7 @@ export const mockStatusHistory = [
       flight: "LH8401",
       origin: "PVG",
       destination: "FRA",
-      event: "BKD",
+      event: "FOH",
       station: "PVG (Shanghai)",
       plannedTime: "2023-05-15 10:00",
       actualTime: "2023-05-15 10:00",
@@ -20,10 +20,10 @@ export const mockStatusHistory = [
       actualPieces: "15 / 2959 kg",
     },
     {
-      flight: "LH8401",
+      flight: "LH001",
       origin: "FRA",
       destination: "BUD",
-      event: "ARR",
+      event: "FOW",
       station: "PVG (Shanghai)",
       plannedTime: "2023-05-15 10:00",
       actualTime: "2023-05-15 10:00",
@@ -31,10 +31,10 @@ export const mockStatusHistory = [
       actualPieces: "15 / 2959 kg",
     },
     {
-      flight: "LH8401",
+      flight: "LH2191",
       origin: "FRA",
       destination: "BUD",
-      event: "DEP",
+      event: "BKA",
       station: "PVG (Shanghai)",
       plannedTime: "2023-05-15 10:00",
       actualTime: "2023-05-15 10:00",
@@ -42,7 +42,7 @@ export const mockStatusHistory = [
       actualPieces: "15 / 2959 kg",
     },
     {
-      flight: "LH8401",
+      flight: "LH002",
       origin: "PVG",
       destination: "FRA",
       event: "BKD",
@@ -53,7 +53,7 @@ export const mockStatusHistory = [
       actualPieces: "15 / 2959 kg",
     },
     {
-      flight: "LH8401",
+      flight: "LH0204",
       origin: "PVG",
       destination: "FRA",
       event: "BKD",
@@ -121,6 +121,64 @@ export const mockStatusHistory = [
 
   ];
 
+  export const mockQAOverview = [
+    {
+      flight: "LH8401",
+      origin: "PVG",
+      destination: "FRA",
+      event: "FOH",
+      station: "FRA (Frankfurt)",
+      plannedTime: "2023-05-15 10:00",
+      actualTime: "2023-05-15 10:00",
+      plannedPieces: "15 / 2595 kg",
+      actualPieces: "15 / 2959 kg",
+    },
+    {
+      flight: "LH3948",
+      origin: "IST",
+      destination: "FRA",
+      event: "FOH",
+      station: "IST (Istanbul)",
+      plannedTime: "2023-05-15 10:00",
+      actualTime: "2023-05-15 10:00",
+      plannedPieces: "15 / 2595 kg",
+      actualPieces: "15 / 2959 kg",
+    },
+    {
+      flight: "LH571",
+      origin: "ATL",
+      destination: "FRA",
+      event: "DEP",
+      station: "ATL (Atlanta)",
+      plannedTime: "2023-05-15 10:00",
+      actualTime: "2023-05-15 10:00",
+      plannedPieces: "15 / 2595 kg",
+      actualPieces: "15 / 2959 kg",
+    },
+    {
+      flight: "LH8401",
+      origin: "BRE",
+      destination: "FRA",
+      event: "BKD",
+      station: "BRE (Bremen)",
+      plannedTime: "2023-05-15 10:00",
+      actualTime: "2023-05-15 10:00",
+      plannedPieces: "15 / 2595 kg",
+      actualPieces: "15 / 2959 kg",
+    },
+    {
+      flight: "LH8401",
+      origin: "PVG",
+      destination: "FRA",
+      event: "BKD",
+      station: "PVG (Shanghai)",
+      plannedTime: "2023-05-15 10:00",
+      actualTime: "2023-05-15 10:00",
+      plannedPieces: "15 / 2595 kg",
+      actualPieces: "15 / 2959 kg",
+    }
+  ];
+
   export // Mock data for geo-locations
   const locations = [
     {
@@ -155,7 +213,7 @@ export const mockStatusHistory = [
       name: "ULD #4",
       info: "Customs clearance",
     },
-    /*{
+    {
       id: 5,
       lat: 50.040308,
       lng: 8.543563,
@@ -170,5 +228,5 @@ export const mockStatusHistory = [
       timestamp: "2024-03-16 02:15:00",
       name: "ULD #3",
       info: "Customs clearance",
-    },*/
+    },
   ];

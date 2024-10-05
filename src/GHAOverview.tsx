@@ -2,26 +2,18 @@ import {
     Card,
     CardBody,
     CardHeader,
-    Flex,
     Heading,
     Icon,
     Link,
-    SimpleGrid,
     Table,
     Tbody,
     Td,
-    Text,
     Th,
     Thead,
     Tr,
   } from "@chakra-ui/react";
   import {
-    FaBox,
-    FaClock,
-    FaFlag,
-    FaMapMarkerAlt,
     FaPlane,
-    FaWeight,
   } from "react-icons/fa";
   import { mockAwbData, mockStatusHistory } from "./mockData";
   import BreadCrumbs from "./BreadCrumbs";
@@ -42,7 +34,7 @@ import { defaultCrumb } from "./ShipmentOverview";
         />
   
         {/* Status History */}
-        <Card width="100%" boxSizing="border-box">
+        <Card width="100%" boxSizing="border-box" >
           <CardHeader>
             <Heading size="md">List of Shipments</Heading>
           </CardHeader>

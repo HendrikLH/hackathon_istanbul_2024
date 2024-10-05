@@ -22,7 +22,7 @@ import {
   FaPlane,
   FaWarehouse
 } from "react-icons/fa";
-import { mockAwbData, mockStatusHistory } from "./mockData";
+import { mockAwbData, mockQAOverview, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
@@ -32,6 +32,7 @@ import ULDObject from "./LogisticsObjects/ULDObject";
 import { useEffect, useState } from "react";
 import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
 import getAirportCode from "./utils/getAirPortCodeFromUrl";
+import { WarningIcon } from "@chakra-ui/icons";
 
 export default function QualityAssuranceDetails() {
   const location = useLocation();
@@ -114,8 +115,8 @@ export default function QualityAssuranceDetails() {
         breadCrumbs={[
           defaultCrumb,
           {
-            href: variables.links.shipper.base,
-            label: "Shipment Overview",
+            href: variables.links.qa.base,
+            label: "QA Overview",
             isCurrentPage: false,
           },
           {
@@ -129,7 +130,8 @@ export default function QualityAssuranceDetails() {
       {/* AWB Overview */}
       <Card margin="1em 0" width="100%" boxSizing="border-box">
         <CardHeader>
-          <Heading size="md">Shipment Details</Heading>
+          <Heading size="md">Shipment Details - AWB 117069007</Heading>
+          <Heading size="sm" color="red">Recent Milestone: FOH</Heading>
         </CardHeader>
         <CardBody>
           <SimpleGrid columns={[2, null, 3]} spacing={4}>
@@ -177,14 +179,14 @@ export default function QualityAssuranceDetails() {
               </Tr>
             </Thead>
             <Tbody>
-              {mockStatusHistory.map((status, index) => (
-                <Tr key={index}>
+              {mockQAOverview.map((status, index) => (
+                <Tr key={index} color={status.station === "FRA (Frankfurt)" ? "red" : ""}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                      {ULDData?.["@graph"][1].code}
+                      {status.event}
                   </Td>
                   <Td>{status.station}</Td>
-                  <Td>{getShipmentStatus()}</Td>
+                  <Td>{status.station === "FRA (Frankfurt)" ? <WarningIcon color="red" /> : getShipmentStatus()}</Td>
                   <Td>{status.plannedPieces}</Td>
                 </Tr>
               ))}

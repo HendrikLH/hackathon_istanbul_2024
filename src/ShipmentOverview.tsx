@@ -126,12 +126,56 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
             <Thead>
               <Tr>
                 <Th>AWB</Th>
+                {agent === "Quality Assurance Agent" ? <Th>Test</Th> : <></>}
+                <Th>Recent Milestone</Th>
                 <Th>Departure Location</Th>
                 <Th>Arrival Location</Th>
                 <Th>Status</Th>
               </Tr>
             </Thead>
             <Tbody>
+              <Tr key={1234} color="red">
+                <Td>
+                  <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
+                  <Link
+                    href={
+                      currentlocation +
+                      "/" +
+                      "020" +
+                      "-" +
+                      "117069007"
+                    }
+                  >
+                    020-00706942
+                  </Link>
+                </Td>
+                {agent === "Quality Assurance Agent" ? <Td>DB Schenker</Td> : <></>}
+                <Td>FOH</Td>
+                <Td>FRA</Td>
+                <Td>ATL</Td>
+                <Td><WarningIcon color="red" /></Td>
+              </Tr>
+              <Tr key={1234}>
+                <Td>
+                  <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
+                  <Link
+                    href={
+                      currentlocation +
+                      "/" +
+                      "020" +
+                      "-" +
+                      "117069007"
+                    }
+                  >
+                    020-00706942
+                  </Link>
+                </Td>
+                {agent === "Quality Assurance Agent" ? <Td>DB Schenker</Td> : <></>}
+                <Td>FOH</Td>
+                <Td>IST</Td>
+                <Td>FRA</Td>
+                <Td><CheckCircleIcon color="green" /></Td>
+              </Tr>
               {mockStatusHistory.map((status, index) => (
                 <Tr key={index}>
                   <Td>
@@ -148,6 +192,8 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
                       {data?.waybillPrefix}-{data?.waybillNumber}
                     </Link>
                   </Td>
+                  {agent === "Quality Assurance Agent" ? <Td>Kühne + Nagel AG</Td> : <></>}
+                  <Td>DEP</Td>
                   <Td>{getAirportCode(data?.departureLocation["@id"])}</Td>
                   <Td>{getAirportCode(data?.arrivalLocation["@id"])}</Td>
                   <Td>{getShipmentStatus()}</Td>
