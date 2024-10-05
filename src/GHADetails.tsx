@@ -23,7 +23,7 @@ import {
   FaPlane,
   FaWeight,
 } from "react-icons/fa";
-import { mockAwbData, mockStatusHistory } from "./mockData";
+import { locations, mockAwbData, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
@@ -132,8 +132,8 @@ export default function GHADetails() {
         <CardBody>
           <SimpleGrid columns={[2, null, 3]} spacing={4}>
             <Flex align="center">
-              <Icon as={FaBox} mr={2} />
-              <Text>Product: {mockAwbData.product}</Text>
+              <Icon as={FaPlane} mr={2} />
+              <Text>Flight: LH8401</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaBox} mr={2} />
@@ -159,42 +159,43 @@ export default function GHADetails() {
         </CardBody>
       </Card>
 
-      {/* ULDs */}
-      <Card marginBottom="1em" width="100%" boxSizing="border-box">
+      {/* ULD Overview */}
+      <Card margin="1em 0" width="100%" boxSizing="border-box">
         <CardHeader>
-          <Heading size="md">List of ULDs for Shipment {id}</Heading>
+          <Heading size="md">ULD Details</Heading>
         </CardHeader>
         <CardBody>
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>ULD No.</Th>
-                <Th>Milestone</Th>
-                <Th>Operating Airline</Th>
-                <Th>Origin</Th>
-                <Th>Destination</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {mockStatusHistory.map((status, index) => (
-                <Tr key={index}>
-                  <Td>
-                    <Icon as={FaBox} boxSize={4} mb={0} marginRight="1em" />
-                    {ULDData?.["@graph"][0].uldSerialNumber}
-                  </Td>
-                  <Td>{ULDData?.["@graph"][1].code}</Td>
-                  <Td>{ULDData?.["@graph"][2].codeDescription}</Td>
-                  <Td>{getAirportCode(awbData?.departureLocation["@id"])}</Td>
-                  <Td>{getAirportCode(awbData?.arrivalLocation["@id"])}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+          <SimpleGrid columns={[2, null, 3]} spacing={4}>
+            <Flex align="center">
+              <Icon as={FaBox} mr={2} />
+              <Text>ULD no.: {ULDData?.["@graph"][0].uldSerialNumber}</Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FaClock} mr={2} />
+              <Text>Current Milestone: {ULDData?.["@graph"][1].code}</Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FaPlane} mr={2} />
+              <Text>Operating Airline: {ULDData?.["@graph"][2].codeDescription}</Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FaMapMarkerAlt} mr={2} />
+              <Text>Origin: {getAirportCode(awbData?.departureLocation["@id"])}</Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FaFlag} mr={2} />
+              <Text>Destination: {getAirportCode(awbData?.arrivalLocation["@id"])}</Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FaWeight} mr={2} />
+              <Text>Weight: 10 kg</Text>
+            </Flex>
+          </SimpleGrid>
         </CardBody>
       </Card>
 
       {/* Geo Location Map */}
-      <GeoMap />
+      <GeoMap points={locations} />
     </>
   );
 }

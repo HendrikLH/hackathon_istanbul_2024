@@ -41,41 +41,6 @@ import { defaultCrumb } from "./ShipmentOverview";
           breadCrumbs={[defaultCrumb, { href: variables.links.gha.base, label: "GHA Overview", isCurrentPage: true }]}
         />
   
-        {/* AWB Overview */}
-        <Card margin="1em 0" width="100%" boxSizing="border-box">
-          <CardHeader>
-            <Heading size="md">Shipment Statistics</Heading>
-          </CardHeader>
-          <CardBody>
-            <SimpleGrid columns={[2, null, 3]} spacing={4}>
-              <Flex align="center">
-                <Icon as={FaBox} mr={2} />
-                <Text>Product: {mockAwbData.product}</Text>
-              </Flex>
-              <Flex align="center">
-                <Icon as={FaBox} mr={2} />
-                <Text>Pieces: {mockAwbData.pieces}</Text>
-              </Flex>
-              <Flex align="center">
-                <Icon as={FaWeight} mr={2} />
-                <Text>Weight: {mockAwbData.weight} kg</Text>
-              </Flex>
-              <Flex align="center">
-                <Icon as={FaMapMarkerAlt} mr={2} />
-                <Text>Origin: {mockAwbData.origin}</Text>
-              </Flex>
-              <Flex align="center">
-                <Icon as={FaFlag} mr={2} />
-                <Text>Destination: {mockAwbData.destination}</Text>
-              </Flex>
-              <Flex align="center">
-                <Icon as={FaClock} mr={2} />
-                <Text>Recent Milestone: {mockAwbData.recentMilestone}</Text>
-              </Flex>
-            </SimpleGrid>
-          </CardBody>
-        </Card>
-  
         {/* Status History */}
         <Card width="100%" boxSizing="border-box">
           <CardHeader>

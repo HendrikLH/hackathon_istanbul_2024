@@ -30,6 +30,7 @@ import { variables } from "./variables";
 import { useEffect, useState } from "react";
 import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
 import getAirportCode from "./utils/getAirPortCodeFromUrl";
+import { CheckCircleIcon, WarningIcon, WarningTwoIcon } from "@chakra-ui/icons";
 
 interface ShipmentOverviewProps {
   agent: "Shipper" | "Quality Assurance Agent";
@@ -38,7 +39,18 @@ interface ShipmentOverviewProps {
 export const defaultCrumb = {
   href: variables.links.base,
   label: "Agent Selection",
-  isCurrentPage: false
+  isCurrentPage: false,
+};
+
+export function getShipmentStatus() {
+  const randStatus = Math.floor(Math.random() * 4);
+  if (randStatus == 0) {
+    return <CheckCircleIcon color="green" />;
+  } else if (randStatus == 1) {
+    return <WarningTwoIcon color={variables.color.yellow} />;
+  } else {
+    return <WarningIcon color="red" />;
+  }
 }
 
 export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
@@ -46,7 +58,7 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
   const currentlocation = window.location.origin + location.pathname;
 
   // Data fetching
-  const [data, setData] = useState<WaybillObjectResponse | null>(null);
+  const [data, setData] = useState<WaybillObjectResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -56,11 +68,11 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
         const response = await fetch(variables.api.awbs[0].endpoint, {
           method: "GET",
           headers: {
-            'Authorization': `Bearer ${variables.accessToken}`,
-            'Content-Type': 'application/ld+json'
-          }
+            Authorization: `Bearer ${variables.accessToken}`,
+            "Content-Type": "application/ld+json",
+          },
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -79,51 +91,30 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
 
     fetchData();
   }, []);
- 
+
   return (
     <>
       <BreadCrumbs
         breadCrumbs={
           agent === "Shipper"
-            ? [defaultCrumb, { href: variables.links.shipper.base, label: "Shipment Overview", isCurrentPage: true }]
-            : [defaultCrumb, { href: variables.links.qa.base, label: "Quality Assurance Overview", isCurrentPage: true }]
+            ? [
+                defaultCrumb,
+                {
+                  href: variables.links.shipper.base,
+                  label: "Shipment Overview",
+                  isCurrentPage: true,
+                },
+              ]
+            : [
+                defaultCrumb,
+                {
+                  href: variables.links.qa.base,
+                  label: "Quality Assurance Overview",
+                  isCurrentPage: true,
+                },
+              ]
         }
       />
-
-      {/* AWB Overview */}
-      <Card margin="1em 0" width="100%" boxSizing="border-box">
-        <CardHeader>
-          <Heading size="md">Shipment Statistics</Heading>
-        </CardHeader>
-        <CardBody>
-          <SimpleGrid columns={[2, null, 3]} spacing={4}>
-            <Flex align="center">
-              <Icon as={FaBox} mr={2} />
-              <Text>Product: {mockAwbData.product}</Text>
-            </Flex>
-            <Flex align="center">
-              <Icon as={FaBox} mr={2} />
-              <Text>Pieces: {0}</Text>
-            </Flex>
-            <Flex align="center">
-              <Icon as={FaWeight} mr={2} />
-              <Text>Weight: {mockAwbData.weight} kg</Text>
-            </Flex>
-            <Flex align="center">
-              <Icon as={FaMapMarkerAlt} mr={2} />
-              <Text>Origin: {getAirportCode(data?.departureLocation["@id"])}</Text>
-            </Flex>
-            <Flex align="center">
-              <Icon as={FaFlag} mr={2} />
-              <Text>Destination: {getAirportCode(data?.departureLocation["@id"])}</Text>
-            </Flex>
-            <Flex align="center">
-              <Icon as={FaClock} mr={2} />
-              <Text>Recent Milestone: {mockAwbData.recentMilestone}</Text>
-            </Flex>
-          </SimpleGrid>
-        </CardBody>
-      </Card>
 
       {/* Status History */}
       <Card width="100%" boxSizing="border-box">
@@ -134,13 +125,10 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>Flight no. (Origin / Destination)</Th>
                 <Th>AWB</Th>
                 <Th>Departure Location</Th>
                 <Th>Arrival Location</Th>
-                <Th>Actual Time</Th>
-                <Th>Planned Pieces / Weight</Th>
-                <Th>Actual Pieces / Weight</Th>
+                <Th>Status</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -148,16 +136,21 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
                 <Tr key={index}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                    <Link href={currentlocation + "/" + data?.waybillPrefix + "-" + data?.waybillNumber}>
-                    {data?.waybillPrefix}-{data?.waybillNumber}
+                    <Link
+                      href={
+                        currentlocation +
+                        "/" +
+                        data?.waybillPrefix +
+                        "-" +
+                        data?.waybillNumber
+                      }
+                    >
+                      {data?.waybillPrefix}-{data?.waybillNumber}
                     </Link>
                   </Td>
-                  <Td>{data?.waybillPrefix}-{data?.waybillNumber}</Td>
                   <Td>{getAirportCode(data?.departureLocation["@id"])}</Td>
                   <Td>{getAirportCode(data?.arrivalLocation["@id"])}</Td>
-                  <Td>{status.actualTime}</Td>
-                  <Td>{status.plannedPieces}</Td>
-                  <Td>{status.actualPieces}</Td>
+                  <Td>{getShipmentStatus()}</Td>
                 </Tr>
               ))}
             </Tbody>

@@ -17,21 +17,25 @@ import {
 } from "@chakra-ui/react";
 import {
   FaBox,
+  FaCheck,
   FaClock,
   FaFlag,
   FaMapMarkerAlt,
   FaPlane,
+  FaWarehouse,
   FaWeight,
 } from "react-icons/fa";
-import { mockAwbData, mockStatusHistory } from "./mockData";
+import { locations, mockAwbData, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 import GeoMap from "./GeoMap";
-import { defaultCrumb } from "./ShipmentOverview";
+import { defaultCrumb, getShipmentStatus } from "./ShipmentOverview";
 import { variables } from "./variables";
 import ULDObject from "./LogisticsObjects/ULDObject";
 import { useEffect, useState } from "react";
+import WaybillObjectResponse from "./LogisticsObjects/WaybillObject";
+import getAirportCode from "./utils/getAirPortCodeFromUrl";
 
 export default function ShipmentDetails() {
   const location = useLocation();
@@ -73,6 +77,41 @@ export default function ShipmentDetails() {
     fetchData();
   }, []);
 
+  // AWB Data fetching
+  const [awbData, setAwbData] = useState<WaybillObjectResponse | null>(null);
+  const [awbLoading, setAwbLoading] = useState(true);
+  const [awbError, setAwbError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(variables.api.awbs[0].endpoint, {
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${variables.accessToken}`,
+            'Content-Type': 'application/ld+json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result: WaybillObjectResponse = await response.json();
+
+        console.log("Result for shipment: ", result);
+
+        setAwbData(result);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <BreadCrumbs
@@ -100,23 +139,23 @@ export default function ShipmentDetails() {
           <SimpleGrid columns={[2, null, 3]} spacing={4}>
             <Flex align="center">
               <Icon as={FaBox} mr={2} />
-              <Text>Product: {mockAwbData.product}</Text>
+              <Text>AWB:  {awbData?.waybillPrefix}-{awbData?.waybillNumber}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaBox} mr={2} />
-              <Text>Pieces: {mockAwbData.pieces}</Text>
+              <Text>Pieces: {}</Text>
             </Flex>
             <Flex align="center">
-              <Icon as={FaWeight} mr={2} />
-              <Text>Weight: {mockAwbData.weight} kg</Text>
+              <Icon as={FaWarehouse} mr={2} />
+              <Text>Status: {getShipmentStatus()}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaMapMarkerAlt} mr={2} />
-              <Text>Origin: {mockAwbData.origin}</Text>
+              <Text>Origin: {getAirportCode(awbData?.departureLocation["@id"])}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaFlag} mr={2} />
-              <Text>Destination: {mockAwbData.destination}</Text>
+              <Text>Destination: {getAirportCode(awbData?.arrivalLocation["@id"])}</Text>
             </Flex>
             <Flex align="center">
               <Icon as={FaClock} mr={2} />
@@ -129,16 +168,15 @@ export default function ShipmentDetails() {
       {/* ULDs */}
       <Card marginBottom="1em" width="100%" boxSizing="border-box">
         <CardHeader>
-          <Heading size="md">List of ULDs for Shipment {id}</Heading>
+          <Heading size="md">List of Milestones for Shipment</Heading>
         </CardHeader>
         <CardBody>
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>ULD No.</Th>
-                <Th>Current Station</Th>
-                <Th>Origin</Th>
-                <Th>Destination</Th>
+                <Th>Milestone</Th>
+                <Th>Station</Th>
+                <Th>Status</Th>
                 <Th>Amount of Pieces</Th>
               </Tr>
             </Thead>
@@ -147,13 +185,10 @@ export default function ShipmentDetails() {
                 <Tr key={index}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                    <Link href={currentlocation + "shipment/" + status.flight}>
-                      {status.flight}
-                    </Link>
+                      {ULDData?.["@graph"][1].code}
                   </Td>
                   <Td>{status.station}</Td>
-                  <Td>{status.station}</Td>
-                  <Td>{status.station}</Td>
+                  <Td>{getShipmentStatus()}</Td>
                   <Td>{status.plannedPieces}</Td>
                 </Tr>
               ))}
@@ -162,8 +197,6 @@ export default function ShipmentDetails() {
         </CardBody>
       </Card>
 
-      {/* Geo Location Map */}
-      <GeoMap />
     </>
   );
 }

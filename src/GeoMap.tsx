@@ -68,7 +68,20 @@ function PolylineComponent() {
   return null;
 }
 
-export default function GeoMap() {
+interface DataPoint {
+  id: number,
+  lat: number,
+  lng: number,
+  timestamp: string,
+  name: string,
+  info: string
+}
+
+interface GeoMapProps {
+  points: DataPoint[]
+}
+
+export default function GeoMap({points}: GeoMapProps) {
   const [center] = useState<[number, number]>([50.042514,8.542955]);
   const [zoom] = useState(17);
 
