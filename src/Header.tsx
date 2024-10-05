@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Flex, Text, VStack, HStack, Heading, useColorModeValue, ChakraProvider } from '@chakra-ui/react'
+import { Box, Flex, Text, VStack, HStack, Heading, useColorModeValue, ChakraProvider, Link } from '@chakra-ui/react'
 import { FaPlane, FaBox } from 'react-icons/fa'
 import { variables } from './variables'
 
@@ -16,11 +16,12 @@ export default function Header() {
         bg={bgColor} 
         color={textColor} 
         py={3} 
-        px="1em" 
+        px="1em"
         boxShadow="sm"
       >
         <Flex 
-          maxW="container.xl" 
+          maxW="container.xl"
+          px="1em"
           mx="auto" 
           justifyContent="space-between" 
           alignItems="center"
@@ -28,7 +29,7 @@ export default function Header() {
           <HStack spacing={4}>
             <Box as={FaBox} size="24px" color={accentColor} />
             <VStack alignItems="flex-start" spacing={0}>
-              <Heading size="md" fontWeight="bold">ULD Tracking</Heading>
+              <Link href="/" style={{textDecoration: "none"}}><Heading size="md" fontWeight="bold">ULD Tracking</Heading></Link>
               <Text fontSize="sm" fontWeight="medium">By Team <i>JettHansa Industries</i></Text>
             </VStack>
           </HStack>

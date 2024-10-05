@@ -4,6 +4,7 @@ import ShipmentOverview from "./ShipmentOverview";
 import Header from "./Header";
 import Footer from "./Footer";
 import ShipmentDetails from "./ShipmentDetails";
+import AgentSelection from "./AgentSelection";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           boxSizing="border-box"
         >
           <Routes>
-            <Route path="/" element={<ShipmentOverview />} />
+            <Route path="/" element={<AgentSelection/>}/>
+            <Route path="/shipment/" element={<ShipmentOverview />} />
             <Route path="/shipment/*" element={<ShipmentDetails />} />
           </Routes>
         </Flex>
