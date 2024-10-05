@@ -5,6 +5,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import ShipmentDetails from "./ShipmentDetails";
 import AgentSelection from "./AgentSelection";
+import { variables } from "./variables";
+import QualityAssuranceDetails from "./QualityAssuranceDetails";
+import GHAOverview from "./GHAOverview";
+import GHADetails from "./GHADetails";
 
 function App() {
   return (
@@ -24,9 +28,12 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<AgentSelection/>}/>
-            <Route path="/shipment/" element={<ShipmentOverview agent="Shipper" />} />
-            <Route path="/quality-assurance/" element={<ShipmentOverview agent="Quality Assurance Agent" />} />
-            <Route path="/shipment/*" element={<ShipmentDetails />} />
+            <Route path={variables.links.shipper.base} element={<ShipmentOverview agent="Shipper" />} />
+            <Route path={variables.links.qa.base} element={<ShipmentOverview agent="Quality Assurance Agent" />} />
+            <Route path={variables.links.gha.base} element={<GHAOverview />} />
+            <Route path={variables.links.shipper.details} element={<ShipmentDetails />} />
+            <Route path={variables.links.qa.details} element={<QualityAssuranceDetails />} />
+            <Route path={variables.links.gha.details} element={<GHADetails />} />
           </Routes>
         </Flex>
         <Footer />

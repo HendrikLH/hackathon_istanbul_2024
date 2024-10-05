@@ -82,7 +82,7 @@ export default function AgentSelection() {
                   transition="all 0.3s"
                   _hover={{ transform: "translateY(-5px)", boxShadow: "lg" }}
                 >
-                  <Icon as={option.icon} boxSize={12} mb={4} color="blue.500" />
+                  <Icon as={option.icon} boxSize={12} mb={4} color={variables.color.yellow} />
                   <Text fontWeight="bold" fontSize="lg" mb={2}>
                     {option.role}
                   </Text>

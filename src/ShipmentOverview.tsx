@@ -32,15 +32,17 @@ interface ShipmentOverviewProps {
   agent: "Shipper" | "Quality Assurance Agent";
 }
 
+export const defaultCrumb = {
+  href: variables.links.base,
+  label: "Agent Selection",
+  isCurrentPage: false
+}
+
 export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
   const location = useLocation();
   const currentlocation = window.location.origin + location.pathname;
 
-  const defaultCrumb = {
-    href: variables.links.base,
-    label: "Agent Selection",
-    isCurrentPage: false
-  }
+ 
 
   return (
     <>
@@ -110,7 +112,7 @@ export default function ShipmentOverview({ agent }: ShipmentOverviewProps) {
                 <Tr key={index}>
                   <Td>
                     <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                    <Link href={currentlocation + "shipment/" + status.flight}>
+                    <Link href={currentlocation + "/" + status.flight}>
                       {status.flight}
                     </Link>
                   </Td>

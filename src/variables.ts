@@ -9,13 +9,16 @@ export const variables = {
     links: {
         base: "/",
         shipper: {
-            base: "/shipment"
+            base: "/shipment",
+            details: "/shipment/*"
         },
         gha: {
-            base: "/ground-handling-agent"
+            base: "/ground-handling-agent",
+            details: "/ground-handling-agent/*"
         },
         qa: {
-            base: "/quality-assurance"
+            base: "/quality-assurance",
+            details: "/quality-assurance/*"
         }
     }
 }

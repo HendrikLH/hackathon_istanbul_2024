@@ -26,30 +26,25 @@ import {
   import { mockAwbData, mockStatusHistory } from "./mockData";
   import BreadCrumbs from "./BreadCrumbs";
   import { useLocation } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
-import GeoMap from "./GeoMap";
+  import { variables } from "./variables";
 import { defaultCrumb } from "./ShipmentOverview";
-import { variables } from "./variables";
   
-  export default function ShipmentDetails() {
+  export default function GHAOverview() {
+    const location = useLocation();
+    const currentlocation = window.location.origin + location.pathname;
   
-      const location = useLocation();
-      const currentlocation = window.location.origin + location.pathname;
-      const id = currentlocation.split("/").pop();
+   
   
     return (
       <>
         <BreadCrumbs
-          breadCrumbs={[defaultCrumb,
-            { href: variables.links.shipper.base, label: "Shipment Overview", isCurrentPage: false },
-            { href: currentlocation, label: `Shipment Details ${id}`, isCurrentPage: true },
-          ]}
+          breadCrumbs={[defaultCrumb, { href: variables.links.gha.base, label: "GHA Overview", isCurrentPage: true }]}
         />
-        <LoadingSpinner loadingTimeMS={200} />
-          {/* AWB Overview */}
+  
+        {/* AWB Overview */}
         <Card margin="1em 0" width="100%" boxSizing="border-box">
           <CardHeader>
-            <Heading size="md">Shipment Details</Heading>
+            <Heading size="md">Shipment Statistics</Heading>
           </CardHeader>
           <CardBody>
             <SimpleGrid columns={[2, null, 3]} spacing={4}>
@@ -80,21 +75,23 @@ import { variables } from "./variables";
             </SimpleGrid>
           </CardBody>
         </Card>
-
-        {/* ULDs */}
-        <Card marginBottom="1em" width="100%" boxSizing="border-box">
+  
+        {/* Status History */}
+        <Card width="100%" boxSizing="border-box">
           <CardHeader>
-            <Heading size="md">List of ULDs for Shipment {id}</Heading>
+            <Heading size="md">List of Shipments</Heading>
           </CardHeader>
           <CardBody>
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>ULD No.</Th>
-                  <Th>Current Station</Th>
-                  <Th>Origin</Th>
-                  <Th>Destination</Th>
-                  <Th>Amount of Pieces</Th>
+                  <Th>Flight no. (Origin / Destination)</Th>
+                  <Th>Event</Th>
+                  <Th>Station</Th>
+                  <Th>Planned Time</Th>
+                  <Th>Actual Time</Th>
+                  <Th>Planned Pieces / Weight</Th>
+                  <Th>Actual Pieces / Weight</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -102,21 +99,22 @@ import { variables } from "./variables";
                   <Tr key={index}>
                     <Td>
                       <Icon as={FaPlane} boxSize={4} mb={0} marginRight="1em" />
-                      <Link href={currentlocation + "shipment/" + status.flight}>{status.flight}</Link>
+                      <Link href={currentlocation + "/" + status.flight}>
+                        {status.flight}
+                      </Link>
                     </Td>
+                    <Td>{status.event}</Td>
                     <Td>{status.station}</Td>
-                    <Td>{status.station}</Td>
-                    <Td>{status.station}</Td>
+                    <Td>{status.plannedTime}</Td>
+                    <Td>{status.actualTime}</Td>
                     <Td>{status.plannedPieces}</Td>
+                    <Td>{status.actualPieces}</Td>
                   </Tr>
                 ))}
               </Tbody>
             </Table>
           </CardBody>
         </Card>
-
-        {/* Geo Location Map */}
-        <GeoMap />
       </>
     );
   }

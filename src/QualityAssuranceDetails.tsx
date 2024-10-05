@@ -31,7 +31,7 @@ import GeoMap from "./GeoMap";
 import { defaultCrumb } from "./ShipmentOverview";
 import { variables } from "./variables";
   
-  export default function ShipmentDetails() {
+  export default function QualityAssuranceDetails() {
   
       const location = useLocation();
       const currentlocation = window.location.origin + location.pathname;
@@ -41,8 +41,8 @@ import { variables } from "./variables";
       <>
         <BreadCrumbs
           breadCrumbs={[defaultCrumb,
-            { href: variables.links.shipper.base, label: "Shipment Overview", isCurrentPage: false },
-            { href: currentlocation, label: `Shipment Details ${id}`, isCurrentPage: true },
+            { href: variables.links.qa.base, label: "Quality Assurance Overview", isCurrentPage: false },
+            { href: currentlocation, label: `Details for ${id}`, isCurrentPage: true },
           ]}
         />
         <LoadingSpinner loadingTimeMS={200} />
