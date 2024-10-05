@@ -5,7 +5,6 @@ import {
   Flex,
   Heading,
   Icon,
-  Link,
   SimpleGrid,
   Table,
   Tbody,
@@ -17,19 +16,16 @@ import {
 } from "@chakra-ui/react";
 import {
   FaBox,
-  FaCheck,
   FaClock,
   FaFlag,
   FaMapMarkerAlt,
   FaPlane,
-  FaWarehouse,
-  FaWeight,
+  FaWarehouse
 } from "react-icons/fa";
-import { locations, mockAwbData, mockStatusHistory } from "./mockData";
+import { mockAwbData, mockStatusHistory } from "./mockData";
 import BreadCrumbs from "./BreadCrumbs";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
-import GeoMap from "./GeoMap";
 import { defaultCrumb, getShipmentStatus } from "./ShipmentOverview";
 import { variables } from "./variables";
 import ULDObject from "./LogisticsObjects/ULDObject";

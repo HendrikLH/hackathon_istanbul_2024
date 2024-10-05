@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -6,6 +7,13 @@ import {
   Heading,
   Icon,
   Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   SimpleGrid,
   Table,
   Tbody,
@@ -14,6 +22,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   FaBox,
@@ -110,6 +119,8 @@ export default function GHADetails() {
     fetchData();
   }, []);
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <>
       <BreadCrumbs
@@ -196,6 +207,38 @@ export default function GHADetails() {
 
       {/* Geo Location Map */}
       <GeoMap points={locations} />
+
+      <Button
+        mt="1em"
+        color={variables.color.blue}
+        bgColor={variables.color.yellow}
+        minWidth="20em"
+        p={6}
+        _hover={{bgColor:"orange", color: "black"}}
+        onClick={onOpen}
+      >Lead me to ULD with exception</Button>
+
+<Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Navigate to ULD {ULDData?.["@graph"][0].uldSerialNumber}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            The ULD can be found at lat: 50.042669 lng: 8.539264
+          </ModalBody>
+
+          <ModalFooter>
+            <Button 
+            color={variables.color.blue}
+            bgColor={variables.color.yellow}
+            _hover={{bgColor:"orange", color: "black"}}
+            colorScheme='blue' mr={3}
+            onClick={onClose}>
+              Start Navigation
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

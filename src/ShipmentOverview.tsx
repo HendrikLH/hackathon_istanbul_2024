@@ -45,11 +45,11 @@ export const defaultCrumb = {
 export function getShipmentStatus() {
   const randStatus = Math.floor(Math.random() * 4);
   if (randStatus == 0) {
-    return <CheckCircleIcon color="green" />;
+    return <WarningIcon color="red" />;
   } else if (randStatus == 1) {
     return <WarningTwoIcon color={variables.color.yellow} />;
   } else {
-    return <WarningIcon color="red" />;
+    return <CheckCircleIcon color="green" />;
   }
 }
 
