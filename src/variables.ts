@@ -5,5 +5,17 @@ export const variables = {
         white: "#fff",
         grey: "#7a7a7a",
         lightGrey: "#f5f5f5"
+    },
+    links: {
+        base: "/",
+        shipper: {
+            base: "/shipment"
+        },
+        gha: {
+            base: "/ground-handling-agent"
+        },
+        qa: {
+            base: "/quality-assurance"
+        }
     }
 }

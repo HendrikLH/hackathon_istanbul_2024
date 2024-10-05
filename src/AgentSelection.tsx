@@ -12,6 +12,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FaShippingFast, FaPlane, FaClipboardCheck } from "react-icons/fa";
+import { variables } from "./variables";
 
 const agentOptions = [
   {
@@ -42,13 +43,13 @@ export default function AgentSelection() {
     // Return the route based on the role
     switch (role) {
       case "Shipper":
-        return "/shipper";
+        return variables.links.shipper.base;
       case "Ground Handling Agent":
-        return "/gha";
+        return variables.links.gha.base;
       case "Quality Assurance Agent":
-        return "/quality-assurance";
+        return variables.links.qa.base;
       default:
-        return "/";
+        return variables.links.base;
     }
   }
 

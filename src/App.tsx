@@ -24,7 +24,8 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<AgentSelection/>}/>
-            <Route path="/shipment/" element={<ShipmentOverview />} />
+            <Route path="/shipment/" element={<ShipmentOverview agent="Shipper" />} />
+            <Route path="/quality-assurance/" element={<ShipmentOverview agent="Quality Assurance Agent" />} />
             <Route path="/shipment/*" element={<ShipmentDetails />} />
           </Routes>
         </Flex>
