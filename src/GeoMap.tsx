@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text, VStack, ChakraProvider } from "@chakra-ui/react";
 import {
   MapContainer,
@@ -12,48 +12,16 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet.polyline.snakeanim";
 
-// Fix for default marker icons
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import L from "leaflet";
 import { variables } from "./variables";
+import { locations } from "./mockData";
 
 let DefaultIcon = L.icon({
   iconUrl: require("./assets/pin.svg").default,
-  shadowUrl: iconShadow,
   iconSize: [50, 60],
-  
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
-
-// Mock data for geo-locations
-const locations = [
-  {
-    id: 1,
-    lat: 50.0471,
-    lng: 8.5629,
-    timestamp: "2024-03-15 10:30:00",
-    name: "ULD #1",
-    info: "Cargo received",
-  },
-  {
-    id: 2,
-    lat: 50.0379,
-    lng: 8.5622,
-    timestamp: "2024-03-15 14:45:00",
-    name: "ULD #2",
-    info: "In transit",
-  },
-  {
-    id: 3,
-    lat: 50.038,
-    lng: 8.5329,
-    timestamp: "2024-03-16 02:15:00",
-    name: "ULD #3",
-    info: "Customs clearance",
-  },
-];
 
 declare module "leaflet" {
   interface Polyline {
@@ -68,12 +36,29 @@ function PolylineComponent() {
   useEffect(() => {
     const polyline = L.polyline(locations.map(location => [location.lat, location.lng]), {
       color: variables.color.yellow,
-      weight: 6,
+      weight: 5,
       opacity: 0.75
     });
 
     polyline.addTo(map);
-    polyline.snakeIn({ snakingSpeed: 1000 });
+
+    // Calculate the total length of the polyline
+    const totalLength = locations.reduce((total, location, index, array) => {
+        if (index === 0) return 0;
+        const prevLocation = array[index - 1];
+        const latLng1 = L.latLng(prevLocation.lat, prevLocation.lng);
+        const latLng2 = L.latLng(location.lat, location.lng);
+        return total + latLng1.distanceTo(latLng2);
+      }, 0);
+  
+      // Set the desired duration in milliseconds (e.g., 50000ms for 50 seconds)
+      const desiredDurationMs = 50000;
+  
+      // Calculate the speed (meters per millisecond)
+      const speed = totalLength / desiredDurationMs;
+  
+      // Set the snaking speed for the animation
+      polyline.snakeIn({ snakingSpeed: speed });
 
     return () => {
       map.removeLayer(polyline);
@@ -84,8 +69,8 @@ function PolylineComponent() {
 }
 
 export default function GeoMap() {
-  const [center] = useState<[number, number]>([50.0421, 8.5629]);
-  const [zoom] = useState(14);
+  const [center] = useState<[number, number]>([50.042514,8.542955]);
+  const [zoom] = useState(17);
 
   return (
     <ChakraProvider>
