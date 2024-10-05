@@ -32,36 +32,52 @@ declare module "leaflet" {
 
 function PolylineComponent() {
   const map = useMap();
-  
+
   useEffect(() => {
-    const polyline = L.polyline(locations.map(location => [location.lat, location.lng]), {
-      color: variables.color.yellow,
-      weight: 5,
-      opacity: 0.75
-    });
+    const colors = ["green", "green", "green"];
 
-    polyline.addTo(map);
+    const animatePolyline = (index: number) => {
+      if (index >= locations.length - 1) return; // Stop if no more locations
 
-    // Calculate the total length of the polyline
-    const totalLength = locations.reduce((total, location, index, array) => {
-        if (index === 0) return 0;
-        const prevLocation = array[index - 1];
-        const latLng1 = L.latLng(prevLocation.lat, prevLocation.lng);
-        const latLng2 = L.latLng(location.lat, location.lng);
-        return total + latLng1.distanceTo(latLng2);
-      }, 0);
-  
-      // Set the desired duration in milliseconds (e.g., 50000ms for 50 seconds)
-      const desiredDurationMs = 50000;
-  
-      // Calculate the speed (meters per millisecond)
-      const speed = totalLength / desiredDurationMs;
-  
-      // Set the snaking speed for the animation
+      const prevLocation = locations[index];
+      const location = locations[index + 1];
+
+      const polyline = L.polyline(
+        [
+          [prevLocation.lat, prevLocation.lng],
+          [location.lat, location.lng]
+        ],
+        {
+          color: colors[index % colors.length],
+          weight: 5,
+          opacity: 0.75
+        }
+      );
+
+      polyline.addTo(map);
+
+      const distance = L.latLng(prevLocation.lat, prevLocation.lng).distanceTo(L.latLng(location.lat, location.lng));
+      const duration = 5000; // 5 seconds per polyline animation
+      const speed = distance / duration;
+
+      // Start the snaking animation and wait for it to finish before animating the next polyline
       polyline.snakeIn({ snakingSpeed: speed });
 
+      setTimeout(() => {
+        // Animate the next polyline after the current one is done
+        animatePolyline(index + 1);
+      }, duration / 3); // Wait for the duration of the current polyline animation before moving to the next
+    };
+
+    // Start animating from the first polyline
+    animatePolyline(0);
+
     return () => {
-      map.removeLayer(polyline);
+      map.eachLayer(layer => {
+        if (layer instanceof L.Polyline) {
+          map.removeLayer(layer);
+        }
+      });
     };
   }, [map]);
 

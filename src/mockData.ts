@@ -147,4 +147,28 @@ export const mockStatusHistory = [
       name: "ULD #3",
       info: "Customs clearance",
     },
+    {
+      id: 4,
+      lat: 50.041424,
+      lng: 8.540463,
+      timestamp: "2024-03-16 02:15:00",
+      name: "ULD #4",
+      info: "Customs clearance",
+    },
+    /*{
+      id: 5,
+      lat: 50.040308,
+      lng: 8.543563,
+      timestamp: "2024-03-16 02:15:00",
+      name: "ULD #3",
+      info: "Customs clearance",
+    },
+    {
+      id: 6,
+      lat: 50.036653,
+      lng: 8.539532,
+      timestamp: "2024-03-16 02:15:00",
+      name: "ULD #3",
+      info: "Customs clearance",
+    },*/
   ];
